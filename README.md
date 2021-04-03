@@ -41,3 +41,10 @@ Integrating the different blockchain technologies.
 * Support longer term passes
 * More historic data to improve the pricing model
 * Admin graphs/reporting of purchases made by users
+
+
+### links
+* https://docs.plasmnet.io/build/smart-contracts/ethereum-contract-on-dusty-network
+* https://docs.avax.network/build/tutorials/smart-contracts/deploy-a-smart-contract-on-avalanche-using-remix-and-metamask
+* https://docs.matic.network/docs/develop/getting-started/
+
