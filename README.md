@@ -26,6 +26,7 @@ They run this at ski resorts because if there's a big event that causes a drop i
 - Generates a QR code representing your pass purchase.
 
 ## How we built it
+
 - Chainlink
 - GeoDB
 
@@ -38,26 +39,16 @@ Integrating the different blockchain technologies.
 ## What we learned
 
 ## What's next for Transport Chain
-* Support longer term passes
-* More historic data to improve the pricing model
-* Admin graphs/reporting of purchases made by users
 
+- Support longer term passes
+- More historic data to improve the pricing model
+- Admin graphs/reporting of purchases made by users
 
 ### links
-* https://docs.plasmnet.io/build/smart-contracts/ethereum-contract-on-dusty-network
-* https://docs.avax.network/build/tutorials/smart-contracts/deploy-a-smart-contract-on-avalanche-using-remix-and-metamask
-* https://docs.matic.network/docs/develop/getting-started/
 
-
-
-
-<br/>
-<p align="center">
-<a href="https://chain.link" target="_blank">
-<img src="https://raw.githubusercontent.com/smartcontractkit/box/master/box-img-lg.png" width="225" alt="Chainlink Truffle logo">
-</a>
-</p>
-<br/>
+- https://docs.plasmnet.io/build/smart-contracts/ethereum-contract-on-dusty-network
+- https://docs.avax.network/build/tutorials/smart-contracts/deploy-a-smart-contract-on-avalanche-using-remix-and-metamask
+- https://docs.matic.network/docs/develop/getting-started/
 
 # Contracts / Truffle
 
@@ -115,6 +106,7 @@ You can also run:
 ```bash
 truffle migrate --network kovan --reset
 ```
+
 If you want to use truffle commands.
 
 ### Local Blockchain
@@ -135,7 +127,7 @@ There are 3 helper scripts provided with this box in the scripts directory:
 - `request-data.js`
 - `read-contract.js`
 
-In addition, for working with Chainlink Price Feeds and ChainlinkVRF there are folders respectively. 
+In addition, for working with Chainlink Price Feeds and ChainlinkVRF there are folders respectively.
 
 They can be used by calling them from `npx truffle exec`, for example:
 
