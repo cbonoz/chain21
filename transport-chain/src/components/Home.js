@@ -40,24 +40,20 @@ export default function Home() {
   };
 
   const getPriceForStation = async () => {
-    const { X, Y } = station;
-    if (!X || !Y) {
-      alert("Please reselect a station");
-      return;
-    }
-
-    const end = new Date();
-    const start = end;
-
-    setLoading(true);
-
-    try {
-      await getPrice(X, Y, start, end);
-    } catch (e) {
-      console.error("error getting price", e);
-    }
-
-    setLoading(false);
+    // const { X, Y } = station;
+    // if (!X || !Y) {
+    //   alert("Please reselect a station");
+    //   return;
+    // }
+    // const end = new Date();
+    // const start = end;
+    // setLoading(true);
+    // try {
+    //   await getPrice(X, Y, start, end);
+    // } catch (e) {
+    //   console.error("error getting price", e);
+    // }
+    // setLoading(false);
   };
 
   useEffect(() => {
