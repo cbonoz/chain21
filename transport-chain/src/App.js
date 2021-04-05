@@ -1,10 +1,15 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import "./App.css";
 
 import "bulma/css/bulma.css";
 import Home from "./components/Home";
+import { initContractInstance } from "./util/transportContract";
 
 function App() {
+  useEffect(() => {
+    initContractInstance()
+  }, [])
+
   return (
     <div className="App">
       <nav

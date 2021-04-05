@@ -5,6 +5,7 @@ import Fuse from "fuse.js";
 import { STATIONS } from "../util/stations";
 
 import "./Home.css";
+import { getPrice } from "../util/transportContract";
 
 const options = {
   // isCaseSensitive: false,
@@ -28,6 +29,7 @@ export default function Home() {
   const [query, setQuery] = useState("");
   const [results, setResults] = useState([]);
   const [station, setStation] = useState({});
+  const [loading, setLoading] = useState(false);
   const [map, setMap] = useState(null);
 
   const updateStation = (result) => {
@@ -35,6 +37,27 @@ export default function Home() {
     setStation(result);
     map.flyTo([result.Y, result.X], 12);
     setQuery(null);
+  };
+
+  const getPriceForStation = async () => {
+    const { X, Y } = station;
+    if (!X || !Y) {
+      alert("Please reselect a station");
+      return;
+    }
+
+    const end = new Date();
+    const start = end;
+
+    setLoading(true);
+
+    try {
+      await getPrice(X, Y, start, end);
+    } catch (e) {
+      console.error("error getting price", e);
+    }
+
+    setLoading(false);
   };
 
   useEffect(() => {
@@ -90,6 +113,14 @@ export default function Home() {
               </div>
               <hr />
               <div>Purchase Ticket</div>
+
+              <button
+                className="btn is-primary"
+                onClick={getPriceForStation}
+                disabled={loading}
+              >
+                Request
+              </button>
             </div>
           )}
         </div>
