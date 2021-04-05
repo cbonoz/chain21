@@ -34,7 +34,7 @@ export default function Home() {
     setResults([]);
     setStation(result);
     map.flyTo([result.Y, result.X], 12);
-    setQuery("");
+    setQuery(null);
   };
 
   useEffect(() => {
@@ -45,7 +45,16 @@ export default function Home() {
   }, [query]);
 
   const position = [station.Y || 51.505, station.X || -0.09];
-  console.log("position", position);
+
+  let inputValue = "";
+  if (query !== null || query) {
+    inputValue = query;
+  } else if (station) {
+    inputValue = `${station.ADDRESS1} ${station.STNNAME}`;
+  }
+
+  console.log("position", position, inputValue);
+
   return (
     <div>
       <div className="columns">
@@ -53,7 +62,7 @@ export default function Home() {
           Search for a station:
           <input
             onChange={(e) => setQuery(e.target.value)}
-            value={query || ` ${station.ADDRESS1} ${station.STNNAME}`}
+            value={inputValue}
             className="input is-primary"
           />
           <br />
