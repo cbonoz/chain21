@@ -1,4 +1,7 @@
 pragma solidity ^0.6.7;
+pragma experimental ABIEncoderV2;
+
+
 
 import "https://raw.githubusercontent.com/smartcontractkit/chainlink/master/evm-contracts/src/v0.6/ChainlinkClient.sol";
 import "https://raw.githubusercontent.com/OpenZeppelin/openzeppelin-contracts/solc-0.6/contracts/access/Ownable.sol";
@@ -35,11 +38,7 @@ contract GeoDBChainlink is ChainlinkClient, Ownable {
       oraclePayment = _oraclePayment;
     }
 
-    function requestUsers
-    (
-      string memory _lat,
-      string memory _lng,
-    )
+    function requestUsers(string memory _lat,string memory _lng)
       public
       onlyOwner
     {
@@ -52,10 +51,7 @@ contract GeoDBChainlink is ChainlinkClient, Ownable {
       sendChainlinkRequestTo(oracle, req, oraclePayment);
     }
 
-    function requestPrice
-    (
-      string[] memory _locations,
-    )
+    function requestPrice(string[] memory _locations)
       public
       onlyOwner
     {

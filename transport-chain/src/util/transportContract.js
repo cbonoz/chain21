@@ -1,44 +1,56 @@
-// import { getWeb3 } from "./getWeb3";
-// const DEFAULT_RADIUS = 3;
+import { getWeb3 } from "./getWeb3";
+import TransportContract from './contracts/TransportContract.json'
 
-// let transportInstance = {};
-// let accounts = [];
+const DEFAULT_RADIUS = 3;
 
-// export const initContractInstance = async () => {
-//   console.log("initContractInstance");
-//   try {
-//     // Get network provider and web3 instance.
-//     const web3 = await getWeb3();
+let transportInstance = {};
+let accounts = [];
 
-//     // Use web3 to get the user's accounts.
-//     accounts = await web3.eth.getAccounts();
+export const initContractInstance = async () => {
+  console.log("initContractInstance");
+  try {
+    // Get network provider and web3 instance.
+    const web3 = await getWeb3();
 
-//     // Get the contract instance.
-//     const networkId = await web3.eth.net.getId();
-//     l;
-//     deployedNetwork = TransportContract.networks[networkId];
-//     transportInstance = new web3.eth.Contract(
-//       TransportContract.abi,
-//       deployedNetwork && deployedNetwork.address
-//     );
+    // Use web3 to get the user's accounts.
+    accounts = await web3.eth.getAccounts();
 
-//     console.log("init", accounts, transportInstance);
+    // Get the contract instance.
+    const networkId = await web3.eth.net.getId();
+    let deployedNetwork = TransportContract.networks[networkId];
+    transportInstance = new web3.eth.Contract(
+      TransportContract.abi,
+      deployedNetwork && deployedNetwork.address
+    );
 
-//     // Set web3, accounts, and contract to the state, and then proceed with an
-//     // example of interacting with the contract's methods.
-//   } catch (error) {
-//     // Catch any errors for any of the above operations.
-//     alert(
-//       `Failed to load web3, accounts, or contract. Check console for details.`
-//     );
-//     console.error("error", error);
-//   }
-// };
+    console.log("init", accounts, transportInstance);
 
-// export const getPrice = async (lat, lng, start, end) => {
-//   // Get the value from the contract to prove it worked.
-//   const response = await transportInstance.methods
-//     .getPrice(lat, lng, DEFAULT_RADIUS, start, end)
-//     .send({ from: accounts[0] });
-//   return response;
-// };
+    // Set web3, accounts, and contract to the state, and then proceed with an
+    // example of interacting with the contract's methods.
+  } catch (error) {
+    // Catch any errors for any of the above operations.
+    alert(
+      `Failed to load web3, accounts, or contract. Check console for details.`
+    );
+    console.error("error", error);
+  }
+};
+
+export const getLastPrice = async () => {
+    return await transportInstance.price.call()
+}
+
+export const getLastUsers = async () => {
+    return await transportInstance.users.call()
+}
+
+
+export const requestPrice = async (latLngs) => { 
+  // List of lat/lngs of form [lat1, lng1, lat2, lng2, ...]
+  // Get the value from the contract to prove it worked.
+  const response = await transportInstance.methods
+    // .getPrice(lat, lng, DEFAULT_RADIUS, start, end)
+    .requestPrice(latLngs)
+    .send({ from: accounts[0] });
+  return response;
+};
