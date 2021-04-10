@@ -152,15 +152,15 @@ export default function Home() {
                 onClick={getPriceForRoute}
                 disabled={loading}
               >
-                Request
-              </button>
+                Request Price
+              </button>&nbsp;
 
               <button
                 className="btn is-primary"
                 onClick={clearStations}
                 disabled={loading}
               >
-                Clear route
+                Clear Route
               </button>
             </div>
             </div>
