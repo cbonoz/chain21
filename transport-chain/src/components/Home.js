@@ -5,7 +5,7 @@ import Fuse from "fuse.js";
 import { STATIONS } from "../util/stations";
 
 import "./Home.css";
-import { purchaseContract, requestPrice } from "../util/transportContract";
+import { purchaseContract, requestPrice, getLastPrice } from "../util/transportContract";
 
 const options = {
   // isCaseSensitive: false,
@@ -37,7 +37,24 @@ export default function Home() {
   const [loading, setLoading] = useState(false);
   const [activePrice, setActivePrice] = useState(undefined)
   const [stations, setStations] = useState([])
+  const [requesting, setRequesting] = useState(false)
+  const [error, setError] = useState('')
   const [map, setMap] = useState(null);
+
+  const getPrice = async () => {
+    try {
+      const data = await getLastPrice()
+      console.log('get price', data)
+      const price = parseFloat(data)
+      if (price > 0) {
+        setActivePrice(price)
+      } else {
+        alert('Price updating...')
+      }
+    } catch (e) {
+      console.error('error getting price', e)
+    }
+  }
 
   const addStation = (result) => {
     setResults([]);
@@ -60,6 +77,12 @@ export default function Home() {
     setLoading(false);
   }
 
+  useEffect(() => {
+    if (requesting) {
+      setRequesting(false)
+    }
+  }, [stations])
+
   const clearStations = () => {
     setActivePrice(undefined)
     setStations([])
@@ -76,6 +99,7 @@ export default function Home() {
     console.log('getPriceForRoute', positionList)
 
     setLoading(true);
+    setRequesting(true)
     try {
       await requestPrice(positionList);
     } catch (e) {
@@ -101,8 +125,6 @@ export default function Home() {
   }
 
   const position = [station.Y || 42.36, station.X || -71.059];
-
-  console.log("position", position, inputValue);
 
   return (
     <div>
@@ -141,7 +163,7 @@ export default function Home() {
               <hr />
               {stations.length > 1 && <div><p><b>Route:</b></p>
           {stations.map((s, i) => {
-            return <p>{i+1}. {getStationName(s)}<br/></p>
+            return <p key={i}>{i+1}. {getStationName(s)}<br/></p>
           })}
           </div>}
           <hr/>
@@ -166,6 +188,15 @@ export default function Home() {
             </div>
           }
 
+          {requesting && <button
+            className="btn is-primary"
+            onClick={getPrice}
+            disabled={loading}
+          >
+            Check price update
+          </button>}
+
+        {loading && <p>Transaction in progress...</p>}
 
         {activePrice && <div>
 
