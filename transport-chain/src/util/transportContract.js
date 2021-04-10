@@ -44,6 +44,21 @@ export const getLastUsers = async () => {
     return await transportInstance.users.call()
 }
 
+export const purchaseContract = async (amount) => { 
+    if (!amount) {
+        alert('Please wait for price to be determined')
+        return
+    }
+    // List of lat/lngs of form [lat1, lng1, lat2, lng2, ...]
+    // Get the value from the contract to prove it worked.
+    const response = await transportInstance.methods
+      // .getPrice(lat, lng, DEFAULT_RADIUS, start, end)
+      .purchaseContract(amount)
+      .send({ from: accounts[0] });
+    return response;
+  };
+  
+
 
 export const requestPrice = async (latLngs) => { 
   // List of lat/lngs of form [lat1, lng1, lat2, lng2, ...]

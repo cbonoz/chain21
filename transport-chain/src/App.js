@@ -7,7 +7,7 @@ import { initContractInstance } from "./util/transportContract";
 
 function App() {
   useEffect(() => {
-    // initContractInstance()
+    initContractInstance()
   }, []);
 
   return (

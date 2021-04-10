@@ -5,6 +5,7 @@ import Fuse from "fuse.js";
 import { STATIONS } from "../util/stations";
 
 import "./Home.css";
+import { purchaseContract, requestPrice } from "../util/transportContract";
 
 const options = {
   // isCaseSensitive: false,
@@ -34,6 +35,7 @@ export default function Home() {
   const [query, setQuery] = useState("");
   const [results, setResults] = useState([]);
   const [loading, setLoading] = useState(false);
+  const [activePrice, setActivePrice] = useState(undefined)
   const [stations, setStations] = useState([])
   const [map, setMap] = useState(null);
 
@@ -48,27 +50,34 @@ export default function Home() {
     setQuery(null);
   };
 
+  const completePurchase = async () => {
+    setLoading(true);
+    try {
+      await purchaseContract(activePrice);
+    } catch (e) {
+      console.error("error getting price", e);
+    }
+    setLoading(false);
+  }
+
   const clearStations = () => {
+    setActivePrice(undefined)
     setStations([])
     setQuery("")
   }
 
   const getPriceForRoute = async () => {
-    if (!stations.length) {
-      
-    }
-    const positionList = stations.map()
-
-    const { X, Y } = station;
-    if (!X || !Y) {
-      alert("Please reselect a station");
+    if (stations.length <= 1) {
+      alert("Please select at least 2 stations");
       return;
     }
-    const end = new Date();
-    const start = end;
+
+    const positionList = stations.map(getLatLng).flat()
+    console.log('getPriceForRoute', positionList)
+
     setLoading(true);
     try {
-      await getPrice(X, Y, start, end);
+      await requestPrice(positionList);
     } catch (e) {
       console.error("error getting price", e);
     }
@@ -91,7 +100,7 @@ export default function Home() {
     inputValue = `${station.ADDRESS1} ${station.STNNAME}`;
   }
 
-  const position = [station.Y || 51.505, station.X || -0.09];
+  const position = [station.Y || 42.36, station.X || -71.059];
 
   console.log("position", position, inputValue);
 
@@ -136,7 +145,7 @@ export default function Home() {
           })}
           </div>}
           <hr/>
-              <div>Purchase Ticket</div>
+              <div><b>Purchase Ticket</b></div>
 
               <button
                 className="btn is-primary"
@@ -156,6 +165,21 @@ export default function Home() {
             </div>
             </div>
           }
+
+
+        {activePrice && <div>
+
+          <b>Price: ${activePrice}</b>
+
+          <button
+                className="btn is-primary"
+                onClick={completePurchase}
+                disabled={loading}
+              >
+                Purchase fare for ${activePrice}
+              </button>
+          
+          </div>}
 
         </div>
         <div className="column is-three-quarters p-4">
