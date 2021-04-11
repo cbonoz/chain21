@@ -5,30 +5,12 @@ import "https://raw.githubusercontent.com/smartcontractkit/chainlink/master/evm-
 import "https://raw.githubusercontent.com/OpenZeppelin/openzeppelin-contracts/solc-0.6/contracts/access/Ownable.sol";
 
 /**
-<<<<<<< HEAD
  * @title TransportContract is an example contract which requests data from
  * the Chainlink network
  * @dev This contract is designed to work on multiple networks, including
  * local test networks
  * ["45.7905","11.9202"]
  */
-=======
-* @title TransportContract is an example contract which requests data from
-* the Chainlink network
-* @dev This contract is designed to work on multiple networks, including
-* local test networks
-* Network: Kovan
-* Oracle: 
-*      Name:           LinkPool
-*      Listing URL:    https://market.link/nodes/323602b9-3831-4f8d-a66b-3fb7531649eb?network=42&start=1614864673&end=1615469473
-*      Address:        0x56dd6586DB0D08c6Ce7B2f2805af28616E082455
-* Job: 
-*      Name:           GeoDB
-*      Listing URL:    https://market.link/jobs/...
-*      ID:             ef0e16c96ce04795b261725db827ba32
-*      Fee:            0.1 LINK
-*/
->>>>>>> 13e641e2749ec8224b31ee28b5e704b5f077f783
 
 contract GeoDBChainlink is ChainlinkClient, Ownable {
     uint256 oraclePayment;
@@ -37,7 +19,6 @@ contract GeoDBChainlink is ChainlinkClient, Ownable {
     bytes32 jobId = 0x00000000000000000000000000000000ef0e16c96ce04795b261725db827ba32;
     string radius = "150";
 
-<<<<<<< HEAD
     uint256 pricePerStation = 34; //Price per station in 10^3 ETH
     uint256 crowdMultiplier = 1;  //Mutiplier for crowd price offset
     bool public passPurchased = false;
@@ -54,15 +35,14 @@ contract GeoDBChainlink is ChainlinkClient, Ownable {
      *      ID:             ef0e16c96ce04795b261725db827ba32
      *      Fee:            0.1 LINK
      */
-=======
->>>>>>> 13e641e2749ec8224b31ee28b5e704b5f077f783
 
     constructor(uint256 _oraclePayment) public {
       setPublicChainlinkToken();
       oraclePayment = _oraclePayment;
     }
 
-    function requestUsers(string memory _lat,string memory _lng)
+    function requestUsers(string memory _lat, string memory _lng)
+      private
       onlyOwner
     {
       pricePerStation += crowdMultiplier;
@@ -87,6 +67,7 @@ contract GeoDBChainlink is ChainlinkClient, Ownable {
 
     function purchasePass()
       public
+      payable
       onlyOwner
     {
       if (msg.value * 1000 >= price) {
