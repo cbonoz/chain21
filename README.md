@@ -13,8 +13,10 @@ Going after:
 1. Government tech prize
 2. Social impact prize.
 3. GeoDB (oracle)
-4. MATIC (deployment)
-5. Plasm (deployment)
+4. MATIC (deployment) - mumbai testnet contract: 0xDB73769d3132DcDE68D27B91E2dd278BD6Be917a
+5. Plasm (deployment) - testnet contract: 0xbEc5b1faDE897D49A10DC02fD405dCa2aC4C752f
+
+Ethereum Kovan network: 0xf672b3d4d31b287D9faF733119F5b1bDbDB9b6B8
 
 ## Inspiration
 
@@ -51,6 +53,8 @@ Upon completing the purchase, the user is redirected to a receipt/completion pag
 - GeoDB (API)
 - Plasm (deployment)
 - Matic (deployment)
+
+Demo: transportchain.netlify.com
 
 ## Challenges we ran into
 
