@@ -3,10 +3,11 @@ import TransportContract from "./contracts/TransportContract.json";
 
 export let transportInstance = {};
 export let accounts = [];
+export let web3 = {};
 
-const DEPLOYED_ADDRESS = "0xbF010fC2eBc5CC5CA54a0b904eCFc70D58ccB91e";
+const DEPLOYED_ADDRESS = "0xf672b3d4d31b287D9faF733119F5b1bDbDB9b6B8";
 
-export const getAccounts = async (web3) => {
+export const getAccounts = async () => {
   return await web3.eth.getAccounts();
 };
 
@@ -14,10 +15,10 @@ export const initContractInstance = async () => {
   console.log("initContractInstance");
   try {
     // Get network provider and web3 instance.
-    const web3 = await getWeb3();
+    web3 = await getWeb3();
 
     // Use web3 to get the user's accounts.
-    accounts = await getAccounts(web3);
+    accounts = await getAccounts();
 
     // Get the contract instance.
     const networkId = await web3.eth.net.getId();
@@ -56,13 +57,16 @@ export const purchaseContract = async (ethAmount) => {
     alert("Please wait for price to be determined");
     return;
   }
-
-  const web3 = await getWeb3();
+  if (!web3) {
+    await initContractInstance();
+  }
   // List of lat/lngs of form [lat1, lng1, lat2, lng2, ...]
   // Get the value from the contract to prove it worked.
-  const response = await transportInstance.methods
-    .purchasePass()
-    .send({ from: accounts[0], value: web3.utils.toWei(ethAmount, "ether") });
+  console.log("purchase", ethAmount);
+  const response = await transportInstance.methods.purchasePass().send({
+    from: accounts[0],
+    value: web3.utils.toWei(ethAmount + "", "ether").toString(),
+  });
   console.log("response", JSON.stringify(response));
   return response;
 };
@@ -80,3 +84,5 @@ export const requestPrice = async (latLngs, start, end) => {
     throw err;
   }
 };
+
+export const getHashUrl = (hash) => `https://kovan.etherscan.io/tx/${hash}`;

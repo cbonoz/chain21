@@ -1,3 +1,6 @@
+export const getStationName = (item) =>
+  `${item.ADDRESS1} ${item.STNNAME} ${item.STATE}`;
+
 export const STATIONS = [
   {
     X: -82.44084200005824,

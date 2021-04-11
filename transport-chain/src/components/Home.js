@@ -8,14 +8,17 @@ import {
 } from "react-leaflet";
 import Fuse from "fuse.js";
 
-import { STATIONS } from "../util/stations";
+import { getStationName, STATIONS } from "../util/stations";
 
 import "./Home.css";
 import {
   purchaseContract,
   requestPrice,
   getLastPrice,
+  getHashUrl,
 } from "../util/transportContract";
+import { EXAMPLE_PURCHASE } from "../util/receipt";
+import Invoice from "./Invoice/Invoice";
 
 const options = {
   // isCaseSensitive: false,
@@ -36,8 +39,6 @@ const options = {
 const lineOptions = { color: "green" };
 
 const getLatLng = (station) => [station.Y, station.X];
-const getStationName = (item) =>
-  `${item.ADDRESS1} ${item.STNNAME} ${item.STATE}`;
 
 const fuse = new Fuse(STATIONS, options);
 
@@ -48,6 +49,7 @@ export default function Home() {
   const [activePrice, setActivePrice] = useState(undefined);
   const [stations, setStations] = useState([]);
   const [requesting, setRequesting] = useState(false);
+  const [purchaseResult, setPurchaseResult] = useState(undefined);
   const [error, setError] = useState("");
   const [map, setMap] = useState(null);
 
@@ -80,7 +82,8 @@ export default function Home() {
   const completePurchase = async () => {
     setLoading(true);
     try {
-      await purchaseContract(activePrice);
+      const res = await purchaseContract(activePrice);
+      setPurchaseResult(res);
     } catch (e) {
       console.error("error getting price", e);
     }
@@ -88,6 +91,7 @@ export default function Home() {
   };
 
   const clearStations = () => {
+    setPurchaseResult(undefined);
     setActivePrice(undefined);
     setRequesting(false);
     setStations([]);
@@ -135,6 +139,26 @@ export default function Home() {
   }
 
   const position = [station.Y || 42.36, station.X || -71.059];
+
+  const isCompleted = purchaseResult && purchaseResult.transactionHash;
+
+  if (isCompleted) {
+    return (
+      <div className="columns">
+        {/* <div className="column is-one-quarter"></div> */}
+        <div className="column">
+          <Invoice
+            amount={activePrice}
+            stations={stations}
+            url={getHashUrl(purchaseResult.transactionHash)}
+          />
+          <button className="m-4" onClick={clearStations}>
+            Done
+          </button>
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div>
@@ -210,7 +234,7 @@ export default function Home() {
                   Clear Route
                 </button>
 
-                {requesting && (
+                {true && (
                   <span>
                     <button
                       className="btn is-primary"
@@ -237,18 +261,16 @@ export default function Home() {
           {loading && <p>Transaction in progress...</p>}
           {activePrice && (
             <div>
+              <br />
               <b>Price: {activePrice} eth</b>
 
-              <button
-                className="btn is-primary"
-                onClick={completePurchase}
-                disabled={loading}
-              >
-                Purchase fare for ${activePrice}
+              <button className="btn is-primary" onClick={completePurchase}>
+                Purchase fare for {activePrice} Eth
               </button>
             </div>
           )}
         </div>
+
         <div className="column is-three-quarters p-4">
           <MapContainer
             className="leaflet-container"
