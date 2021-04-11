@@ -1,12 +1,12 @@
 import { getWeb3 } from "./getWeb3";
-import TransportContract from './contracts/TransportContract.json'
+import TransportContract from "./contracts/TransportContract.json";
 
 export let transportInstance = {};
 export let accounts = [];
 
 export const getAccounts = async (web3) => {
-    return await web3.eth.getAccounts();
-}
+  return await web3.eth.getAccounts();
+};
 
 export const initContractInstance = async () => {
   console.log("initContractInstance");
@@ -15,19 +15,18 @@ export const initContractInstance = async () => {
     const web3 = await getWeb3();
 
     // Use web3 to get the user's accounts.
-    accounts = await getAccounts(web3)
+    accounts = await getAccounts(web3);
 
     // Get the contract instance.
     const networkId = await web3.eth.net.getId();
-    let deployedNetwork = TransportContract.networks && TransportContract.networks[networkId] || {}
-    let { address } = deployedNetwork
+    let deployedNetwork =
+      (TransportContract.networks && TransportContract.networks[networkId]) ||
+      {};
+    let { address } = deployedNetwork;
     if (!address) {
-        address = "0x905Ba1454730f8e08dB9199737c500dA2026e720" // Fallback address of known contract
+      address = "0xA854EB01227B1323B0Ac52EEb679Bfe45C4560c4"; // Fallback address of known contract
     }
-    transportInstance = new web3.eth.Contract(
-      TransportContract.abi,
-      address
-    );
+    transportInstance = new web3.eth.Contract(TransportContract.abi, address);
 
     console.log("init", accounts, transportInstance, address);
 
@@ -43,29 +42,34 @@ export const initContractInstance = async () => {
 };
 
 export const getLastPrice = async () => {
-    return await transportInstance.methods.price().call()
-}
+  return await transportInstance.methods.price().call();
+};
 
 export const getLastUsers = async () => {
-    return await transportInstance.methods.users().call()
-}
+  return await transportInstance.methods.users().call();
+};
 
-export const purchaseContract = async (amount) => { 
-    if (!amount) {
-        alert('Please wait for price to be determined')
-        return
-    }
-    // List of lat/lngs of form [lat1, lng1, lat2, lng2, ...]
-    // Get the value from the contract to prove it worked.
-    const response = await transportInstance.methods.purchaseContract(amount).send({ from: accounts[0] });
-    return response;
-  };
-  
+export const purchaseContract = async (ethAmount) => {
+  if (!ethAmount) {
+    alert("Please wait for price to be determined");
+    return;
+  }
 
-
-export const requestPrice = async (latLngs) => { 
+  const web3 = await getWeb3();
   // List of lat/lngs of form [lat1, lng1, lat2, lng2, ...]
   // Get the value from the contract to prove it worked.
-  const response = await transportInstance.methods.requestPrice(latLngs).send({ from: accounts[0] });
+  const response = await transportInstance.methods
+    .purchasePass()
+    .send({ from: accounts[0], value: web3.utils.toWei(ethAmount, "ether") });
+  console.log("response", JSON.stringify(response));
+  return response;
+};
+
+export const requestPrice = async (latLngs) => {
+  // List of lat/lngs of form [lat1, lng1, lat2, lng2, ...]
+  // Get the value from the contract to prove it worked.
+  const response = await transportInstance.methods
+    .requestPrice(latLngs)
+    .send({ from: accounts[0] });
   return response;
 };
