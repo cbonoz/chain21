@@ -29,9 +29,22 @@ They run this at ski resorts because if there's a big event that causes a drop i
 
 - Uses chainlink oracles to model/track attendence at different airport and transportation hubs.
 - Determines a real-time price for a given transport contract.
-- Generates a QR code representing your pass purchase.
+- Generates a receipt representing your pass purchase.
+- Currently deployed on the Kovan testnet.
+
+
+<p align='center'>
+    <img src="./img/map.png" width=600>
+    Collecting payment for a given route using metamask.
+</p>
 
 ## How we built it
+
+TransportChain queries an index of Amtrak/train locations across the US allowing the user to create their own custom route for pass purchase.
+
+A smartcontract determines the pricing of the fare based on the user population/trends at the different stations over the past 2 months.
+
+Upon completing the purchase, the user is redirected to a receipt/completion page linking to the transaction alongside the created pass document as a pdf. Currently supports the Kovan network only.
 
 - Remix (contracts and compilation)
 - Metamask/web3 (contract interaction)
@@ -54,9 +67,6 @@ They run this at ski resorts because if there's a big event that causes a drop i
 
 ## Screenshots
 
-<p align='center'>
-    <img src="./img/map.png" width=600>
-</p>
 
 <!--
 ### Useful links
