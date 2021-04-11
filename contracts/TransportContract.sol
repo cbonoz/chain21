@@ -21,7 +21,6 @@ contract GeoDBChainlink is ChainlinkClient, Ownable {
 
     uint256 pricePerStation = 34; //Price per station in 10^3 ETH
     uint256 crowdMultiplier = 1;  //Mutiplier for crowd price offset
-    bool public passPurchased = false;
 
     /**
      * Network: Kovan
@@ -45,7 +44,7 @@ contract GeoDBChainlink is ChainlinkClient, Ownable {
       private
       onlyOwner
     {
-      pricePerStation += crowdMultiplier;
+      price += pricePerStation;
       Chainlink.Request memory req = buildChainlinkRequest(jobId, address(this), this.fulfill.selector);
       req.add("lat", _lat);
       req.add("lng", _lng);
@@ -69,9 +68,14 @@ contract GeoDBChainlink is ChainlinkClient, Ownable {
       public
       payable
       onlyOwner
+      returns(bool)
     {
-      if (msg.value * 1000 >= price) {
-        passPurchased = true;
+      if (msg.value >= price) {
+        address payable owner = payable(owner());
+        owner.transfer(msg.value);
+        return true;
+      } else {
+        return false;
       }
     }
 
