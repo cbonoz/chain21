@@ -263,6 +263,7 @@ export default function Home() {
             <div>
               <br />
               <b>Price: {activePrice} eth</b>
+              <br />
 
               <button className="btn is-primary" onClick={completePurchase}>
                 Purchase fare for {activePrice} Eth
