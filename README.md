@@ -2,7 +2,6 @@
     <img src='./img/transport_chain.png' width=400>
 </p>
 
-
 ## TransportChain
 
 Dynamic pricing for government transport services.
@@ -13,13 +12,15 @@ Going after:
 
 1. Government tech prize
 2. Social impact prize.
-3. GeoDB
+3. GeoDB (oracle)
+4. MATIC (deployment)
+5. Plasm (deployment)
 
 ## Inspiration
 
 Covid caused a huge drop in public service usage that could be mitigated/reduced by offering the public the ability to pre-purchase futures for public transport on chainlink.
 
-Right now I could go buy a bus pass and it always costs $2.50.
+Right now I could go buy a bus pass and it always costs \$2.50.
 You don't want to have big chunks of the day or the year where running transport is open. Might as well discount them so you can still fill them up.
 
 They run this at ski resorts because if there's a big event that causes a drop in people they still want to invite attendees. Transport business can get a more stable source of revenue if individuals purchase longer term passes. Customers also win because they know the price isn't going to go way up if the demand goes way up in the future.
@@ -32,16 +33,18 @@ They run this at ski resorts because if there's a big event that causes a drop i
 
 ## How we built it
 
-- Chainlink
-- GeoDB
+- Remix (contracts and compilation)
+- Metamask/web3 (contract interaction)
+- Chainlink (base contract)
+- GeoDB (API)
+- Plasm (deployment)
+- Matic (deployment)
 
 ## Challenges we ran into
 
-Integrating the different blockchain technologies.
-
-## Accomplishments that we're proud of
-
-## What we learned
+- Integrating the different blockchain technologies in a single chainlink contracts.
+- Deploying and configuring the contracts on different provider networks.
+- Connecting the FE to the Kovan test network with metamask.
 
 ## What's next for Transport Chain
 
@@ -49,9 +52,15 @@ Integrating the different blockchain technologies.
 - More historic data to improve the pricing model
 - Admin graphs/reporting of purchases made by users
 
-<!-- 
-### Useful links
+## Screenshots
 
+<p align='center'>
+    <img src="./img/map.png" width=600>
+</p>
+
+<!--
+### Useful links
+- https://blog.chain.link/matic-defi-price-feeds/
 - https://docs.plasmnet.io/build/smart-contracts/ethereum-contract-on-dusty-network
 - https://docs.avax.network/build/tutorials/smart-contracts/deploy-a-smart-contract-on-avalanche-using-remix-and-metamask
 - https://docs.matic.network/docs/develop/getting-started/
