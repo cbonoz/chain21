@@ -62,7 +62,7 @@ contract GeoDBChainlink is ChainlinkClient, Ownable {
     {
       price = 0;
       for (uint i = 0; i < _locations.length; i += 2) {
-        requestUsers(_locations[i], _locations[i + 1], );
+        requestUsers(_locations[i], _locations[i + 1], _start, _end);
       }
     }
 
@@ -71,7 +71,7 @@ contract GeoDBChainlink is ChainlinkClient, Ownable {
       payable
       returns(bool)
     {
-      if (1000 * msg.value >= price ether) {
+      if (1000 * msg.value >= price * 1 ether) {
         address payable owner = payable(owner());
         owner.transfer(msg.value);
         return true;
