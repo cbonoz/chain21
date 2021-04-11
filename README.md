@@ -32,9 +32,8 @@ They run this at ski resorts because if there's a big event that causes a drop i
 - Generates a receipt representing your pass purchase.
 - Currently deployed on the Kovan testnet.
 
-
 <p align='center'>
-    <img src="./img/map.png" width=600>
+    <img src="./img/map.png" width=600><br/>
     Collecting payment for a given route using metamask.
 </p>
 
@@ -66,7 +65,6 @@ Upon completing the purchase, the user is redirected to a receipt/completion pag
 - Admin graphs/reporting of purchases made by users
 
 ## Screenshots
-
 
 <!--
 ### Useful links
