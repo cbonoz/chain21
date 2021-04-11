@@ -5,6 +5,7 @@ import Fuse from "fuse.js";
 import { STATIONS } from "../util/stations";
 
 import "./Home.css";
+import { purchaseContract, requestPrice, getLastPrice } from "../util/transportContract";
 
 const options = {
   // isCaseSensitive: false,
@@ -34,8 +35,26 @@ export default function Home() {
   const [query, setQuery] = useState("");
   const [results, setResults] = useState([]);
   const [loading, setLoading] = useState(false);
+  const [activePrice, setActivePrice] = useState(undefined)
   const [stations, setStations] = useState([])
+  const [requesting, setRequesting] = useState(false)
+  const [error, setError] = useState('')
   const [map, setMap] = useState(null);
+
+  const getPrice = async () => {
+    try {
+      const data = await getLastPrice()
+      console.log('get price', data)
+      const price = parseFloat(data)
+      if (price > 0) {
+        setActivePrice(price)
+      } else {
+        alert('Price updating...')
+      }
+    } catch (e) {
+      console.error('error getting price', e)
+    }
+  }
 
   const addStation = (result) => {
     setResults([]);
@@ -48,27 +67,41 @@ export default function Home() {
     setQuery(null);
   };
 
+  const completePurchase = async () => {
+    setLoading(true);
+    try {
+      await purchaseContract(activePrice);
+    } catch (e) {
+      console.error("error getting price", e);
+    }
+    setLoading(false);
+  }
+
+  useEffect(() => {
+    if (requesting) {
+      setRequesting(false)
+    }
+  }, [stations])
+
   const clearStations = () => {
+    setActivePrice(undefined)
     setStations([])
     setQuery("")
   }
 
   const getPriceForRoute = async () => {
-    if (!stations.length) {
-      
-    }
-    const positionList = stations.map()
-
-    const { X, Y } = station;
-    if (!X || !Y) {
-      alert("Please reselect a station");
+    if (stations.length <= 1) {
+      alert("Please select at least 2 stations");
       return;
     }
-    const end = new Date();
-    const start = end;
+
+    const positionList = stations.map(getLatLng).flat()
+    console.log('getPriceForRoute', positionList)
+
     setLoading(true);
+    setRequesting(true)
     try {
-      await getPrice(X, Y, start, end);
+      await requestPrice(positionList);
     } catch (e) {
       console.error("error getting price", e);
     }
@@ -91,9 +124,7 @@ export default function Home() {
     inputValue = `${station.ADDRESS1} ${station.STNNAME}`;
   }
 
-  const position = [station.Y || 51.505, station.X || -0.09];
-
-  console.log("position", position, inputValue);
+  const position = [station.Y || 42.36, station.X || -71.059];
 
   return (
     <div>
@@ -132,30 +163,54 @@ export default function Home() {
               <hr />
               {stations.length > 1 && <div><p><b>Route:</b></p>
           {stations.map((s, i) => {
-            return <p>{i+1}. {getStationName(s)}<br/></p>
+            return <p key={i}>{i+1}. {getStationName(s)}<br/></p>
           })}
           </div>}
           <hr/>
-              <div>Purchase Ticket</div>
+              <div><b>Purchase Ticket</b></div>
 
               <button
                 className="btn is-primary"
                 onClick={getPriceForRoute}
                 disabled={loading}
               >
-                Request
-              </button>
+                Request Price
+              </button>&nbsp;
 
               <button
                 className="btn is-primary"
                 onClick={clearStations}
                 disabled={loading}
               >
-                Clear route
+                Clear Route
               </button>
             </div>
             </div>
           }
+
+          {requesting && <button
+            className="btn is-primary"
+            onClick={getPrice}
+            disabled={loading}
+          >
+            Check price update
+          </button>}
+
+        {loading && <p>Transaction in progress...</p>}
+
+        {activePrice && <div>
+
+          <b>Price: ${activePrice}</b>
+
+          <button
+                className="btn is-primary"
+                onClick={completePurchase}
+                disabled={loading}
+              >
+                Purchase fare for ${activePrice}
+              </button>
+          
+          </div>}
 
         </div>
         <div className="column is-three-quarters p-4">

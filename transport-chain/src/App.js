@@ -7,7 +7,7 @@ import { initContractInstance } from "./util/transportContract";
 
 function App() {
   useEffect(() => {
-    // initContractInstance()
+    initContractInstance()
   }, []);
 
   return (
@@ -18,13 +18,7 @@ function App() {
         aria-label="main navigation"
       >
         <div className="navbar-brand">
-          <a className="navbar-item" href="https://bulma.io">
-            {/* <img
-              src="https://bulma.io/images/bulma-logo.png"
-              alt="Bulma: Free, open source, and modern CSS framework based on Flexbox"
-              width="112"
-              height="28"
-            /> */}
+          <a className="navbar-item" href="/">
             <span className="font-bold">
               <b>Transport Chain</b> | Dynamic fare using Chainlink
             </span>

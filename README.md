@@ -1,3 +1,8 @@
+<p align='center'>
+    <img src='./img/transport_chain.png' width=400>
+</p>
+
+
 ## TransportChain
 
 Dynamic pricing for government transport services.
