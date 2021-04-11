@@ -106,12 +106,17 @@ export default function Home() {
     }
 
     const positionList = stations.map(getLatLng).flat();
-    console.log("getPriceForRoute", positionList);
 
     setLoading(true);
     setRequesting(true);
+
+    const start = "2021-02-07 20:00:00";
+    const end = "2021-04-07 20:00:00";
+
+    console.log("getPriceForRoute", positionList, start, end);
+
     try {
-      await requestPrice(positionList);
+      await requestPrice(positionList, start, end);
     } catch (e) {
       console.error("error getting price", e);
     }
