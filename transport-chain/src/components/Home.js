@@ -87,14 +87,9 @@ export default function Home() {
     setLoading(false);
   };
 
-  useEffect(() => {
-    if (requesting) {
-      setRequesting(false);
-    }
-  }, [stations]);
-
   const clearStations = () => {
     setActivePrice(undefined);
+    setRequesting(false);
     setStations([]);
     setQuery("");
   };
@@ -195,14 +190,18 @@ export default function Home() {
                 <div>
                   <b>Purchase Ticket</b>
                 </div>
-                <button
-                  className="btn is-primary"
-                  onClick={getPriceForRoute}
-                  disabled={loading}
-                >
-                  Request Price
-                </button>
-                &nbsp;
+                {!requesting && (
+                  <span>
+                    <button
+                      className="btn is-primary"
+                      onClick={getPriceForRoute}
+                      disabled={loading}
+                    >
+                      Request Price
+                    </button>
+                    &nbsp;
+                  </span>
+                )}
                 <button
                   className="btn is-primary"
                   onClick={clearStations}
@@ -210,17 +209,30 @@ export default function Home() {
                 >
                   Clear Route
                 </button>
+
+                {requesting && (
+                  <span>
+                    <button
+                      className="btn is-primary"
+                      onClick={getPrice}
+                      disabled={loading}
+                    >
+                      Check price
+                    </button>
+                    &nbsp;
+                    <button
+                      className="btn is-primary"
+                      onClick={() => {
+                        setRequesting(false);
+                        setLoading(false);
+                      }}
+                    >
+                      Cancel
+                    </button>
+                  </span>
+                )}
               </div>
             </div>
-          )}
-          {requesting && (
-            <button
-              className="btn is-primary"
-              onClick={getPrice}
-              disabled={loading}
-            >
-              Check price update
-            </button>
           )}
           {loading && <p>Transaction in progress...</p>}
           {activePrice && (
