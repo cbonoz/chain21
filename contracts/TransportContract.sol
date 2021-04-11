@@ -1,8 +1,6 @@
 pragma solidity ^0.6.7;
 pragma experimental ABIEncoderV2;
 
-
-
 import "https://raw.githubusercontent.com/smartcontractkit/chainlink/master/evm-contracts/src/v0.6/ChainlinkClient.sol";
 import "https://raw.githubusercontent.com/OpenZeppelin/openzeppelin-contracts/solc-0.6/contracts/access/Ownable.sol";
 
@@ -11,14 +9,19 @@ import "https://raw.githubusercontent.com/OpenZeppelin/openzeppelin-contracts/so
  * the Chainlink network
  * @dev This contract is designed to work on multiple networks, including
  * local test networks
+ * ["45.7905","11.9202"]
  */
 
 contract GeoDBChainlink is ChainlinkClient, Ownable {
     uint256 oraclePayment;
-    uint public price = 0;
+    uint256 public price = 150;
     address oracle = 0x56dd6586DB0D08c6Ce7B2f2805af28616E082455;
     bytes32 jobId = 0x00000000000000000000000000000000ef0e16c96ce04795b261725db827ba32;
     string radius = "150";
+
+    uint256 pricePerStation = 34; //Price per station in 10^3 ETH
+    uint256 crowdMultiplier = 1;  //Mutiplier for crowd price offset
+    bool public passPurchased = false;
 
     /**
      * Network: Kovan
@@ -39,9 +42,9 @@ contract GeoDBChainlink is ChainlinkClient, Ownable {
     }
 
     function requestUsers(string memory _lat,string memory _lng)
-      public
       onlyOwner
     {
+      pricePerStation += crowdMultiplier;
       Chainlink.Request memory req = buildChainlinkRequest(jobId, address(this), this.fulfill.selector);
       req.add("lat", _lat);
       req.add("lng", _lng);
@@ -61,10 +64,19 @@ contract GeoDBChainlink is ChainlinkClient, Ownable {
       }
     }
 
+    function purchasePass()
+      public
+      onlyOwner
+    {
+      if (msg.value * 1000 >= price) {
+        passPurchased = true;
+      }
+    }
+
     function fulfill(bytes32 _requestId, uint256 _users)
       public
       recordChainlinkFulfillment(_requestId)
     {
-      price += (100 + _users);
+      price += crowdMultiplier * _users;
     }
 }
