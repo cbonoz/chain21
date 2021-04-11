@@ -20,6 +20,8 @@ contract GeoDBChainlink is ChainlinkClient, Ownable {
     address oracle = 0x56dd6586DB0D08c6Ce7B2f2805af28616E082455;
     bytes32 jobId = 0x00000000000000000000000000000000ef0e16c96ce04795b261725db827ba32;
     string radius = "150";
+    bool public priceRetuned = false;
+    bool public passPurchased = false;
 
     uint256 pricePerStation = 34; //Price per station in 10^3 ETH
     uint256 crowdMultiplier = 1;  //Mutiplier for crowd price offset
@@ -64,20 +66,30 @@ contract GeoDBChainlink is ChainlinkClient, Ownable {
       for (uint i = 0; i < _locations.length; i += 2) {
         requestUsers(_locations[i], _locations[i + 1], _start, _end);
       }
+      priceRetuned = true;
     }
 
     function purchasePass()
       public
       payable
-      returns(bool)
     {
-      if (1000 * msg.value >= price * 1 ether) {
+      if (1000 * msg.value >= price * 1 ether && priceRetuned) {
         address payable owner = payable(owner());
         owner.transfer(msg.value);
-        return true;
+        passPurchased = true;
+        priceRetuned = false;
       } else {
-        return false;
+        passPurchased = false;
       }
+    }
+    
+    function issuePass()
+      public
+      returns(bool)
+    {
+      bool shoudIssuePass = passPurchased;
+      passPurchased = false;
+      return shoudIssuePass;
     }
 
     function fulfill(bytes32 _requestId, uint256 _users)
