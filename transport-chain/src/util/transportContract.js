@@ -5,7 +5,9 @@ export let transportInstance = {};
 export let accounts = [];
 export let web3 = {};
 
-const DEPLOYED_ADDRESS = "0xf672b3d4d31b287D9faF733119F5b1bDbDB9b6B8";
+const KOVAN_ADDRESS = "0xf672b3d4d31b287D9faF733119F5b1bDbDB9b6B8";
+const PLASM_ADDRESS = "0xbEc5b1faDE897D49A10DC02fD405dCa2aC4C752f";
+const MUMBAI_ADDRESS = " 0xDB73769d3132DcDE68D27B91E2dd278BD6Be917a";
 
 export const getAccounts = async () => {
   return await web3.eth.getAccounts();
@@ -27,7 +29,7 @@ export const initContractInstance = async () => {
       {};
     let { address } = deployedNetwork;
     if (!address) {
-      address = DEPLOYED_ADDRESS; // Fallback address of known contract
+      address = KOVAN_ADDRESS; // Fallback address of known contract
     }
     transportInstance = new web3.eth.Contract(TransportContract.abi, address);
 
