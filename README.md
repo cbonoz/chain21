@@ -15,7 +15,7 @@ Used several different blockchain technologies to make this project, going after
 3. GeoDB (oracle) - used for querying
 4. MATIC (deployment) - mumbai testnet contract: 0xDB73769d3132DcDE68D27B91E2dd278BD6Be917a
 5. Plasm (deployment) - testnet contract: 0xbEc5b1faDE897D49A10DC02fD405dCa2aC4C752f
-6. Moonbeam (deployment) - 0x7fB677AaB295F9B17C12E39FDED8Ee03885C0fF2
+6. Moonbeam (deployment) - 0x8B14f0Bdf1feE1941e78E5619cdad6AA65095ED9
 7. 88mph contract - DInterest contract (currently concept, potentially includable in a future deployment) for pushing funds from government fare purchases to an interest bearing DAI pool.
 
 Ethereum Kovan network: 0xf672b3d4d31b287D9faF733119F5b1bDbDB9b6B8
