@@ -1,4 +1,4 @@
-pragma solidity ^0.5.17;
+pragma solidity >=0.6.0 <0.8.0;;
 
 interface IInterestOracle {
     function updateAndQuery() external returns (bool updated, uint256 value);

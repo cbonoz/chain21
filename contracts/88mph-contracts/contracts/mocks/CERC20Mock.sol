@@ -18,7 +18,7 @@
     limitations under the License.
  */
 
-pragma solidity ^0.5.17;
+pragma solidity >=0.6.0 <0.8.0;;
 
 // interfaces
 import "@openzeppelin/contracts/token/ERC20/ERC20.sol";
