@@ -1,4 +1,4 @@
-pragma solidity 0.5.17;
+pragma solidity ^0.5.17;
 
 // Aave lending pool interface
 // Documentation: https://docs.aave.com/developers/the-core-protocol/lendingpool/ilendingpool

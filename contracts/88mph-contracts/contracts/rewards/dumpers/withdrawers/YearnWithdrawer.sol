@@ -1,5 +1,5 @@
 // SPDX-License-Identifier: GPL-3.0-or-later
-pragma solidity 0.5.17;
+pragma solidity ^0.5.17;
 
 import "@openzeppelin/contracts/access/roles/SignerRole.sol";
 import "../imports/yERC20.sol";

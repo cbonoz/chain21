@@ -1,4 +1,4 @@
-pragma solidity 0.5.17;
+pragma solidity ^0.5.17;
 
 
 // Compound finance ERC20 market interface
