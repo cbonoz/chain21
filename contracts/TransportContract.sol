@@ -3,7 +3,6 @@ pragma experimental ABIEncoderV2;
 
 import "https://raw.githubusercontent.com/smartcontractkit/chainlink/master/evm-contracts/src/v0.6/ChainlinkClient.sol";
 import "https://raw.githubusercontent.com/OpenZeppelin/openzeppelin-contracts/solc-0.6/contracts/access/Ownable.sol";
-import "https://raw.githubusercontent.com/OpenZeppelin/openzeppelin-contracts/solc-0.6/contracts/access/Ownable.sol";
 
 /**
  * @title TransportContract requests data from
@@ -80,15 +79,15 @@ contract GeoDBChainlink is ChainlinkClient, Ownable {
         passPurchased = true;
         priceReturned = false;
 
-        DInterest pool = DInterest(0x35966201A7724b952455B73A36C8846D8745218e); // Compound DAI pool
-        ERC20 token = ERC20(0x6b175474e89094c44da98b954eedeac495271d0f); // DAI
-        uint256 depositAmount = 3 * 10 ** 18; // 3 DAI
-        uint256 maturationTimestamp = now + 365 days;
+        // DInterest pool = DInterest(0x35966201A7724b952455B73A36C8846D8745218e); // Compound DAI pool
+        // ERC20 token = ERC20(0x6b175474e89094c44da98b954eedeac495271d0f); // DAI
+        // uint256 depositAmount = 3 * 10 ** 18; // 3 DAI
+        // uint256 maturationTimestamp = now + 365 days;
 
-        require(token.approve(address(pool), depositAmount));
-        pool.deposit(depositAmount, maturationTimestamp);
+        // require(token.approve(address(pool), depositAmount));
+        // pool.deposit(depositAmount, maturationTimestamp);
 
-        uint256 depositID = pool.depositsLength(); // the ID of the deposit
+        // uint256 depositID = pool.depositsLength(); // the ID of the deposit
       } else {
         passPurchased = false;
       }
