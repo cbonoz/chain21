@@ -3,6 +3,7 @@ pragma experimental ABIEncoderV2;
 
 import "https://raw.githubusercontent.com/smartcontractkit/chainlink/master/evm-contracts/src/v0.6/ChainlinkClient.sol";
 import "https://raw.githubusercontent.com/OpenZeppelin/openzeppelin-contracts/solc-0.6/contracts/access/Ownable.sol";
+import "https://raw.githubusercontent.com/OpenZeppelin/openzeppelin-contracts/solc-0.6/contracts/access/Ownable.sol";
 
 /**
  * @title TransportContract requests data from
@@ -20,7 +21,7 @@ contract GeoDBChainlink is ChainlinkClient, Ownable {
     address oracle = 0x56dd6586DB0D08c6Ce7B2f2805af28616E082455;
     bytes32 jobId = 0x00000000000000000000000000000000ef0e16c96ce04795b261725db827ba32;
     string radius = "150";
-    bool public priceRetuned = false;
+    bool public priceReturned = false;
     bool public passPurchased = false;
 
     uint256 pricePerStation = 34; //Price per station in 10^3 ETH
@@ -66,18 +67,28 @@ contract GeoDBChainlink is ChainlinkClient, Ownable {
       for (uint i = 0; i < _locations.length; i += 2) {
         requestUsers(_locations[i], _locations[i + 1], _start, _end);
       }
-      priceRetuned = true;
+      priceReturned = true;
     }
 
     function purchasePass()
       public
       payable
     {
-      if (1000 * msg.value >= price * 1 ether && priceRetuned) {
+      if (1000 * msg.value >= price * 1 ether && priceReturned) {
         address payable owner = payable(owner());
         owner.transfer(msg.value);
         passPurchased = true;
-        priceRetuned = false;
+        priceReturned = false;
+
+        DInterest pool = DInterest(0x35966201A7724b952455B73A36C8846D8745218e); // Compound DAI pool
+        ERC20 token = ERC20(0x6b175474e89094c44da98b954eedeac495271d0f); // DAI
+        uint256 depositAmount = 3 * 10 ** 18; // 3 DAI
+        uint256 maturationTimestamp = now + 365 days;
+
+        require(token.approve(address(pool), depositAmount));
+        pool.deposit(depositAmount, maturationTimestamp);
+
+        uint256 depositID = pool.depositsLength(); // the ID of the deposit
       } else {
         passPurchased = false;
       }
