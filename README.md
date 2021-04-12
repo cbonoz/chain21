@@ -34,7 +34,8 @@ They run this at ski resorts because if there's a big event that causes a drop i
 - Uses chainlink oracles to model/track attendence at different airport and transportation hubs.
 - Determines a real-time price for a given transport contract.
 - Generates a receipt representing your pass purchase.
-- Currently deployed on the Kovan testnet.
+- Optionally pushes funds from transport pass purchases to interest bearing crypto pools.
+- Currently deployed on the Kovan, Moonbeam, Plasm, Mumbai testnets.
 
 <p align='center'>
     <img src="./img/map.png" width=600><br/>
