@@ -16,13 +16,13 @@ Used several different blockchain technologies to make this project, going after
 4. MATIC (deployment) - mumbai testnet contract: 0xDB73769d3132DcDE68D27B91E2dd278BD6Be917a
 5. Plasm (deployment) - testnet contract: 0xbEc5b1faDE897D49A10DC02fD405dCa2aC4C752f
 6. Moonbeam (deployment) - 0x7fB677AaB295F9B17C12E39FDED8Ee03885C0fF2
-7. 88mph (contract) - DInterest contract addable (concept, potentially includable in a future deployment) for pushing funds from fare purchases to interest bearing pools.
+7. 88mph contract - DInterest contract (currently concept, potentially includable in a future deployment) for pushing funds from government fare purchases to an interest bearing DAI pool.
 
 Ethereum Kovan network: 0xf672b3d4d31b287D9faF733119F5b1bDbDB9b6B8
 
 ## Inspiration
 
-Covid caused a huge drop in public service usage that could be mitigated/reduced by offering the public the ability to pre-purchase futures for public transport on chainlink.
+Covid caused a huge drop in public service usage last year. Using chainlink, the impact on government transport service revenue be mitigated/reduced by offering the public the ability to pre-purchase futures and fare for public transport on blockchain.
 
 Right now I could go buy a bus pass and it always costs \$2.50.
 You don't want to have big chunks of the day or the year where running transport is open. Might as well discount them so you can still fill them up.
